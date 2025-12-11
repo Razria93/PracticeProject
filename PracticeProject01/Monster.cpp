@@ -13,9 +13,9 @@ void Monster::initialize()
 	Defense = 5.f;
 }
 
-void Monster::Set_Name(const char* InName)
+void Monster::Set_Name(const char* InName, unsigned long long InSize)
 {
-	if (sizeof(InName) > MAX_NAME_LENGTH - 1)
+	if (InSize > MAX_NAME_LENGTH - 1)
 	{
 		printf("InName Length is too long (max: %d)\n", MAX_NAME_LENGTH - 1);
 		return;
@@ -23,7 +23,7 @@ void Monster::Set_Name(const char* InName)
 
 	int i = 0;
 
-	for (i = 0; i < sizeof(InName); i++)
+	for (i = 0; i < InSize; i++)
 	{
 		Name[i] = InName[i];
 		// printf("InName(%d): %c\n",i, InName[i]);
@@ -33,6 +33,21 @@ void Monster::Set_Name(const char* InName)
 		Name[i] = '\0';
 
 	// printf("Name:%s\n", Name);
+}
+
+void Monster::Set_Lifepoint(float InLifepoint)
+{
+	Lifepoint = InLifepoint;
+}
+
+void Monster::Set_Attack(float InAttack)
+{
+	Attack = InAttack;
+}
+
+void Monster::Set_Defense(float InDefense)
+{
+	Defense = InDefense;
 }
 
 void Monster::Set_Attribute(Attribute InAttribute)

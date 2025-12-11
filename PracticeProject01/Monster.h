@@ -27,7 +27,10 @@ private:
 	void initialize();
 
 public:
-	void Set_Name(const char* InName);
+	void Set_Name(const char* InName, unsigned long long InSize);
+	void Set_Lifepoint(float InLifepoint);
+	void Set_Attack(float InAttack);
+	void Set_Defense(float InDefense);
 	void Set_Attribute(Attribute InAttribute);
 	void Set_Attribute(int InNumber);
 

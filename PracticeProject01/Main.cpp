@@ -6,8 +6,8 @@ int main()
 	Monster* monster0 = new Monster;
 	Monster* monster1 = new Monster;
 	
-	monster0->Set_Name("MONSTER0");
-	monster1->Set_Name("MONSTER1");
+	monster0->Set_Name("MONSTER0", sizeof("MONSTER0"));
+	monster1->Set_Name("MONSTER1", sizeof("MONSTER1"));
 
 	monster0->Set_Attribute(Attribute::Fire);
 	monster1->Set_Attribute(Attribute::Water);
