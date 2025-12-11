@@ -14,6 +14,28 @@ void Monster::initialize()
 	atrribute = Attribute::Fire;
 }
 
+void Monster::Set_Name(const char* InName)
+{
+	if (sizeof(InName) > MAX_NAME_LENGTH - 1)
+	{
+		printf("InName Length is too long (max: %d)\n", MAX_NAME_LENGTH - 1);
+		return;
+	}
+
+	int i = 0;
+
+	for (i = 0; i < sizeof(InName); i++)
+	{
+		Name[i] = InName[i];
+		// printf("InName(%d): %c\n",i, InName[i]);
+	}
+
+	if (i <= MAX_NAME_LENGTH)
+		Name[i] = '\0';
+
+	// printf("Name:%s\n", Name);
+}
+
 void Monster::SendDamage(Monster* InTarget)
 {
 	if (InTarget == nullptr)
@@ -29,7 +51,7 @@ void Monster::SendDamage(Monster* InTarget)
 
 void Monster::TakeDamage(float InDamagePoint)
 {
-	if(Lifepoint < 0.f)
+	if (Lifepoint < 0.f)
 	{
 		printf("Not Enoungh LifePoint\n");
 		return;

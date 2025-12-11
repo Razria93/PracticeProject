@@ -6,7 +6,13 @@ int main()
 	Monster* monster0 = new Monster;
 	Monster* monster1 = new Monster;
 	
+	monster0->Set_Name("MONSTER0");
+	monster1->Set_Name("MONSTER1");
+
+	printf("monster0.Name: %s\n", monster0->Get_Name());
 	printf("monster0.Lifepoint: %f\n", monster0->Get_Lifepoint());
+	
+	printf("monster1.Name: %s\n", monster1->Get_Name());
 	printf("monster1.Lifepoint: %f\n", monster1->Get_Lifepoint());
 	printf("---\n");
 

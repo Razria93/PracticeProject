@@ -1,5 +1,7 @@
 #pragma once
 
+#define MAX_NAME_LENGTH 20
+
 enum Attribute
 {
 	Fire = 0,
@@ -14,6 +16,7 @@ public:
 	Monster();
 
 private:
+	char  Name[MAX_NAME_LENGTH];
 	float Lifepoint;
 	float Attack;
 	float Defense;
@@ -23,6 +26,10 @@ private:
 	void initialize();
 
 public:
+	void Set_Name(const char* InName);
+
+public:
+	char* Get_Name() { return Name; }
 	float Get_Lifepoint() { return Lifepoint; }
 
 public:
