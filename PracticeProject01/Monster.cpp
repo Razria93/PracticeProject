@@ -8,25 +8,30 @@ Monster::Monster()
 void Monster::initialize(StatusData InStatusData)
 {
 	Set_Name(InStatusData.Name, InStatusData.NameSize);
-	Set_Lifepoint(InStatusData.Lifepoint);
+	Set_HealthPoint(InStatusData.HealthPoint);
 	Set_Attack(InStatusData.Attack);
 	Set_Defense(InStatusData.Defense);
 	Set_Attribute(InStatusData.Atrribute);
 }
 
-void Monster::Set_Name(const char* InName, int InSize)
+void Monster::Set_Name(const char* InName, uint64_t InSize)
 {
-	if (InSize > MAX_NAME_LENGTH - 1)
+	if (InName[InSize - 1] != '\0')
+	{
+		printf("InName is not null-terminated\n");
+	}
+
+	if (InSize > MAX_NAME_LENGTH)
 	{
 		M_StatusData.Name[0] = '\0';
 
-		printf("InName Length is too long (max: %d)\n", MAX_NAME_LENGTH - 1);
-		printf("NameSize: %d\n", InSize);
+		printf("InName Length is too long (max: %d)\n", MAX_NAME_LENGTH);
+		printf("InNameSize: %lld\n", InSize);
 
 		return;
 	}
 
-	int i = 0;
+	int i;
 
 	for (i = 0; i < InSize; i++)
 	{
@@ -34,16 +39,14 @@ void Monster::Set_Name(const char* InName, int InSize)
 		// printf("InName(%d): %c\n",i, InName[i]);
 	}
 
-	if (i <= MAX_NAME_LENGTH)
-		M_StatusData.Name[i] = '\0';
-
+	M_StatusData.NameSize = i;
 	// printf("Name:%s\n", Name);
-	// printf("NameSize: %d\n", InSize);
+	// printf("NameSize: %lld\n", InSize);
 }
 
-void Monster::Set_Lifepoint(float InLifepoint)
+void Monster::Set_HealthPoint(float InHealthPoint)
 {
-	M_StatusData.Lifepoint = InLifepoint;
+	M_StatusData.HealthPoint = InHealthPoint;
 }
 
 void Monster::Set_Attack(float InAttack)
@@ -71,7 +74,30 @@ void Monster::Set_Attribute(int InNumber)
 	M_StatusData.Atrribute = (Attribute)InNumber;
 }
 
-void Monster::SendDamage(Monster* InTarget)
+bool Monster::Query_IsAlive()
+{
+	return M_StatusData.HealthPoint > 0.f;
+}
+
+bool Monster::Query_IsEqualName(const char* InName, uint64_t InSize)
+{
+	if (M_StatusData.NameSize != InSize)
+	{
+		Print_NameSize();
+		printf("InNameSize: %lld\n", InSize);
+		return false;
+	}
+
+	for (int i = 0; i < M_StatusData.NameSize; i++)
+	{
+		if (M_StatusData.Name[i] != InName[i])
+			return false;
+	}
+
+	return true;
+}
+
+void Monster::Send_Damage(Monster* InTarget)
 {
 	if (InTarget == nullptr)
 	{
@@ -79,38 +105,68 @@ void Monster::SendDamage(Monster* InTarget)
 		return;
 	}
 
-	InTarget->TakeDamage(CalculateDamage(InTarget));
+	InTarget->Take_Damage(CalculateDamage(InTarget));
 }
 
-void Monster::TakeDamage(float InDamagePoint)
+void Monster::Take_Damage(float InDamagePoint)
 {
-	if (M_StatusData.Lifepoint < 0.f)
+	if (M_StatusData.HealthPoint < 0.f)
 	{
-		printf("Not Enoungh LifePoint\n");
+		printf("Not Enoungh HealthPoint\n");
 		return;
 	}
 
-	M_StatusData.Lifepoint -= InDamagePoint;
+	M_StatusData.HealthPoint -= InDamagePoint;
 
-	if (M_StatusData.Lifepoint < 0.f)
+	if (M_StatusData.HealthPoint < 0.f)
 	{
-		M_StatusData.Lifepoint = 0.f;
+		M_StatusData.HealthPoint = 0.f;
 
-		printf("LifePoint is zero\n");
+		printf("HealthPoint is zero\n");
 		return;
 	}
 }
 
-void Monster::PrintStatusData()
+void Monster::Print_StatusData()
 {
 	printf("----------------\n");
+	Print_Name();
+	Print_HealthPoint();
+	Print_Attack();
+	Print_Defense();
+	Print_Attribute();
+	printf("----------------\n");
+}
+
+void Monster::Print_Name()
+{
 	printf("%-10s: %s\n", "Name", M_StatusData.Name);
-	printf("%-10s: %.1f\n", "Lifepoint", M_StatusData.Lifepoint);
+}
+
+void Monster::Print_HealthPoint()
+{
+	printf("%-10s: %.1f\n", "HealthPoint", M_StatusData.HealthPoint);
+}
+
+void Monster::Print_Attack()
+{
 	printf("%-10s: %.1f\n", "Attack", M_StatusData.Attack);
+}
+
+void Monster::Print_Defense()
+{
 	printf("%-10s: %.1f\n", "Defense", M_StatusData.Defense);
+}
+
+void Monster::Print_Attribute()
+{
 	printf("%-10s: %d\n", "Atrribute", M_StatusData.Atrribute);
 	printf("0: Fire / 1: Water / 2: Earth / 3: Wind\n");
-	printf("----------------\n");
+}
+
+void Monster::Print_NameSize()
+{
+	printf("NameSize: %lld\n", M_StatusData.NameSize);
 }
 
 float Monster::CalculateDamage(Monster* InTarget)
