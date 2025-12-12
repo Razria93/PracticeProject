@@ -15,6 +15,16 @@ enum Attribute
 	Max,
 };
 
+enum Status
+{
+	Name = 0,
+	NameSize,
+	HealthPoint,
+	Attack,
+	Defense,
+	Atrribute,
+};
+
 struct StatusData
 {
 	char  Name[MAX_NAME_LENGTH];

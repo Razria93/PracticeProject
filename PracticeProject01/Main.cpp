@@ -6,10 +6,10 @@
 
 int main()
 {
-	Arena* arena = new Arena;
-	int containerSize = 10;
+	uint64_t containerSize = 10;
+	Arena* arena = new Arena(containerSize);
 
-	arena->Initialize(containerSize);
+	// arena->Initialize(containerSize);
 
 	StatusData statusData0 = StatusData{ "MONSTER0", sizeof("MONSTER0"),100.f, 15.f, 5.f, Attribute::Earth };
 	StatusData statusData1 = StatusData{ "MONSTER1", sizeof("MONSTER1"), 50.f, 30.f, 10.f, Attribute::Water };
@@ -21,20 +21,23 @@ int main()
 	arena->Add_Monster(statusData2);
 	arena->Add_Monster(statusData3);
 
-	arena->Print_ContainerCount();
 	arena->Print_Monster_StatusData("MONSTER0", sizeof("MONSTER0"));
 	arena->Print_Monster_StatusData("MONSTER1", sizeof("MONSTER1"));
 	arena->Print_Monster_StatusData("MONSTER2", sizeof("MONSTER2"));
 	arena->Print_Monster_StatusData("MONSTER3", sizeof("MONSTER3"));
 
-	arena->Print_Monster_highestHP();
+	arena->Print_Container_Member();
+	arena->Print_Container_Count();
 
 	arena->Delete_Monster(0);
-	arena->Print_ContainerCount();
-	arena->Print_Monster_StatusData("MONSTER0", sizeof("MONSTER0"));
+	// arena->Print_Monster_StatusData("MONSTER0", sizeof("MONSTER0"));
 
+	arena->Print_Container_Member();
+	arena->Print_Container_Count();
+	
+	arena->Print_Monster_highestHP();
+	
 	// arena->GoToAround(); 
-
 	arena->StartGame();
 
 	return 0;

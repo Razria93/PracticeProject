@@ -6,20 +6,24 @@ class Arena
 {
 public:
 	Arena();
+	Arena(uint64_t InContainerSize);
+
 	~Arena();
 
 public:
-	int ContainerSize;
+	uint64_t ContainerSize;
 	int ContainerCount;
 
 private:
 	// Container
 	Unit* ContainerStart;
 	int* ContainerValidIndices;
-	bool bIsEndGame;
+
+	int AroundCount;
+	bool bIsEndFlag;
 
 public:
-	void Initialize(int InContainerSize);
+	void Initialize(uint64_t InContainerSize);
 
 public:
 	void Add_Monster(StatusData InStatusData);
@@ -30,8 +34,18 @@ public:
 	void StartGame();
 
 public:
-	void Print_ContainerCount();
+	void Print_Container_Ptr();
+	void Print_Container_Size();
+	void Print_Container_Count();
+	void Print_Container_Member();
+
+	void Print_Unit_Ptr(Unit* InUnit);
+	void Print_Unit_MonsterPtr(Unit* InUnit);
+	void Print_Unit_Index(Unit* InUnit);
+	void Print_Unit_MonsterName(Unit* InUnit);
+
 	void Print_Monster_highestHP();
+	void Print_Monster_StatusData(int InUnitIndex);
 	void Print_Monster_StatusData(const char* InName, uint64_t InSize);
 
 private:

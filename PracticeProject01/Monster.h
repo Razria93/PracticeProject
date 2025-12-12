@@ -6,6 +6,7 @@ class Monster
 {
 public:
 	Monster();
+	Monster(StatusData InStatusData);
 
 private:
 	StatusData M_StatusData;
