@@ -25,6 +25,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Arena.h" />
+    <ClInclude Include="GlobalStructure.h" />
     <ClInclude Include="Monster.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

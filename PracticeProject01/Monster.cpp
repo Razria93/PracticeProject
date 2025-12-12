@@ -5,7 +5,7 @@ Monster::Monster()
 {
 }
 
-void Monster::initialize(StatusData InStatusData)
+void Monster::Initialize(StatusData InStatusData)
 {
 	Set_Name(InStatusData.Name, InStatusData.NameSize);
 	Set_HealthPoint(InStatusData.HealthPoint);

@@ -1,27 +1,6 @@
 #pragma once
 
-#define MAX_NAME_LENGTH 20
-
-typedef unsigned long long uint64_t;
-
-enum Attribute
-{
-	Fire = 0,
-	Water,
-	Earth,
-	Wind,
-	Max,
-};
-
-struct StatusData
-{
-	char  Name[MAX_NAME_LENGTH];
-	uint64_t NameSize;
-	float HealthPoint;
-	float Attack;
-	float Defense;
-	Attribute Atrribute;
-};
+#include "GlobalStructure.h"
 
 class Monster
 {
@@ -32,7 +11,7 @@ private:
 	StatusData M_StatusData;
 
 public:
-	void initialize(StatusData InStatus);
+	void Initialize(StatusData InStatus);
 
 public:
 	void Set_Name(const char* InName, uint64_t InSize);

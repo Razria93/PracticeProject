@@ -1,11 +1,15 @@
 #include <iostream>
+
+#include "GlobalStructure.h"
 #include "Monster.h"
 #include "Arena.h"
 
 int main()
 {
 	Arena* arena = new Arena;
-	arena->Initialize(10);
+	int containerSize = 10;
+
+	arena->Initialize(containerSize);
 
 	StatusData statusData0 = StatusData{ "MONSTER0", sizeof("MONSTER0"),100.f, 15.f, 5.f, Attribute::Earth };
 	StatusData statusData1 = StatusData{ "MONSTER1", sizeof("MONSTER1"), 50.f, 30.f, 10.f, Attribute::Water };
@@ -21,6 +25,10 @@ int main()
 	arena->Print_Monster_StatusData("MONSTER2", sizeof("MONSTER2"));
 
 	arena->Print_Monster_highestHP();
+
+	arena->Delete_Monster(0);
+	arena->Print_ContainerCount();
+	arena->Print_Monster_StatusData("MONSTER0", sizeof("MONSTER0"));
 
 	return 0;
 }

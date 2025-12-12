@@ -6,32 +6,39 @@ Arena::Arena()
 {
 }
 
-void Arena::Initialize(int InContainerCount)
+Arena::~Arena()
+{
+	delete ContainerValidIndices;
+	delete ContainerStart;
+}
+
+void Arena::Initialize(int InContainerSize)
 {
 	printf("=Initialize=====\n");
 
+	ContainerStart = new Unit[InContainerSize];
+	ContainerValidIndices = new int[InContainerSize];
+	
+	ContainerSize = InContainerSize;
 	ContainerCount = 0;
-
-	ContainerStart = new Unit[InContainerCount];
-	ContainerSize = InContainerCount;
-	ContainerOffset = sizeof(Unit);
 
 	printf("ContainerStart: %p\n", ContainerStart);
 	printf("ContainerSize: %d\n", ContainerSize);
-	printf("ContainerOffset: %d\n", ContainerOffset);
 	printf("----------------\n");
 
-	for (int i = 0; i < ContainerSize; ++i)
+	for (int i = 0; i < ContainerSize; i++)
 	{
 		Unit* temp = ContainerStart + i;
 
 		temp->Unit_Monster = nullptr;
-		temp->Unit_Number = -1;
+		temp->Unit_Index = -1;
+
+		ContainerValidIndices[i] = -1;
 
 		// printf("i: %d\n", i);
 		// printf("temp: %p\n", temp);
 		// printf("temp->Unit_Monster: %p\n", temp->Unit_Monster);
-		// printf("temp->Unit_Number: %d\n", temp->Unit_Number);
+		// printf("temp->Unit_Index: %d\n", temp->Unit_Index);
 		// printf("----------------\n");
 	}
 
@@ -44,31 +51,31 @@ void Arena::Add_Monster(StatusData InStatusData)
 
 	Monster* monster = new Monster;
 
-	monster->initialize(InStatusData);
+	monster->Initialize(InStatusData);
 
-	for (int i = 0; i < ContainerSize; ++i)
+	for (int i = 0; i < ContainerSize; i++)
 	{
 		Unit* temp = ContainerStart + i;
 
 		// printf("i: %d\n", i);
 		// printf("temp: %p\n", temp);
 		// printf("temp->Unit_Monster: %p\n", temp->Unit_Monster);
-		// printf("temp->Unit_Number: %d\n", temp->Unit_Number);
+		// printf("temp->Unit_Index: %d\n", temp->Unit_Index);
 		// printf("----------------\n");
 
-		if (temp->Unit_Number == -1)
+		if (temp->Unit_Index == -1)
 		{
 			temp->Unit_Monster = monster;
-			temp->Unit_Number = i;
+			temp->Unit_Index = i;
 
-			++ContainerCount;
-
+			Add_ValidIndex(i);
+			
 			printf("-Add_Units------\n");
-			monster->Print_Name();
+			temp->Unit_Monster->Print_Name();
 			printf("i: %d\n", i);
 			printf("ContainerPointer: %p\n", temp);
 			printf("Unit_MonsterPointer: %p\n", temp->Unit_Monster);
-			printf("Unit_Number: %d\n", temp->Unit_Number);
+			printf("Unit_Number: %d\n", temp->Unit_Index);
 			printf("----------------\n");
 
 			break;
@@ -76,6 +83,34 @@ void Arena::Add_Monster(StatusData InStatusData)
 	}
 
 	printf("\n");
+}
+
+void Arena::Delete_Monster(int InUnitIndex)
+{
+	printf("=Delete_Monster=\n");
+
+	Unit* temp = Find_Monster_ByUnitNum(InUnitIndex);
+
+	printf("-Before_Delete_Units-\n");
+	temp->Unit_Monster->Print_Name();
+	printf("ContainerPointer: %p\n", temp);
+	printf("Unit_MonsterPointer: %p\n", temp->Unit_Monster);
+	printf("Unit_Number: %d\n", temp->Unit_Index);
+	printf("---------------------\n");
+
+	delete temp->Unit_Monster;
+
+	temp->Unit_Monster = nullptr;
+	temp->Unit_Index = -1;
+
+	Delete_ValidIndex(InUnitIndex);
+
+	printf("-After_Delete_Units--\n");
+	temp->Unit_Monster->Print_Name(); // NOTICE : Implicit Work
+	printf("ContainerPointer: %p\n", temp);
+	printf("Unit_MonsterPointer: %p\n", temp->Unit_Monster);
+	printf("Unit_Number: %d\n", temp->Unit_Index);
+	printf("---------------------\n");
 }
 
 void Arena::Print_ContainerCount()
@@ -87,14 +122,17 @@ void Arena::Print_ContainerCount()
 
 void Arena::Print_Monster_highestHP()
 {
+	if (!Check_Container_IsValid())
+		return;
+
 	float mostHP = FLT_MIN;
 	Monster* mostHP_monster = nullptr;
 
-	for (int i = 0; i < ContainerSize; ++i)
+	for (int i = 0; i < ContainerSize; i++)
 	{
 		Unit* temp = ContainerStart + i;
 
-		if (temp->Unit_Number != -1 && temp->Unit_Monster != nullptr)
+		if (temp->Unit_Index != -1 && temp->Unit_Monster != nullptr)
 		{
 			float tempHP = temp->Unit_Monster->Get_HealthPoint();
 
@@ -113,29 +151,99 @@ void Arena::Print_Monster_highestHP()
 		mostHP_monster->Print_HealthPoint();
 		printf("\n");
 	}
+	else
+	{
+		printf("=Monster_StatusData=\n");
+		printf("Find_Fail\n");
+		printf("\n");
+	}
 }
 
 void Arena::Print_Monster_StatusData(const char* InName, uint64_t InSize)
 {
-	printf("=Monster_StatusData=\n");
-	for (int i = 0; i < ContainerSize; ++i)
-	{
-		Unit* temp = ContainerStart + i;
+	if (!Check_Container_IsValid())
+		return;
 
-		if (temp->Unit_Number != -1 && temp->Unit_Monster != nullptr)
+	Unit* temp = Find_Monster_ByUnitName(InName, InSize);
+
+	if (temp != nullptr)
+	{
+		printf("=Monster_StatusData=\n");
+		temp->Unit_Monster->Print_StatusData();
+		printf("\n");
+	}
+	else // temp == nullptr
+	{
+		printf("=Monster_StatusData=\n");
+		printf("Find_Fail: %s\n", InName);
+		printf("\n");
+	}
+}
+
+void Arena::Add_ValidIndex(int InUnitIndex)
+{
+	ContainerValidIndices[ContainerCount] = InUnitIndex;
+	++ContainerCount;
+}
+
+void Arena::Delete_ValidIndex(int InUnitIndex)
+{
+	int* temp = new int[ContainerSize];
+	int tempcount = 0;
+
+	for (int i = 0; i < ContainerSize; i++)
+	{
+		if (ContainerValidIndices[i] != -1 && ContainerValidIndices[i] != InUnitIndex)
 		{
-			if (temp->Unit_Monster->Query_IsEqualName(InName, InSize))
-			{
-				temp->Unit_Monster->Print_StatusData();
-				printf("\n");
-				return;
-			}
+			temp[tempcount] = ContainerValidIndices[i];
+			++tempcount;
 		}
 	}
 
-	printf("Find_Fail: %s\n", InName);
-	printf("\n");
-	return;
+	for (int j = tempcount; j < ContainerSize; j++)
+	{
+		temp[j] = -1;
+	}
+
+	delete ContainerValidIndices;
+
+	ContainerValidIndices = temp;
+	ContainerCount = tempcount;
 }
 
+Unit* Arena::Find_Monster_ByUnitNum(int InUnitIndex)
+{
+	if (!Check_Container_IsValid())
+		return nullptr;
 
+	for (int i = 0; i < ContainerSize; i++)
+	{
+		Unit* temp = ContainerStart + i;
+
+		if (temp->Unit_Index != -1 && temp->Unit_Monster != nullptr && temp->Unit_Index == InUnitIndex)
+			return temp;
+	}
+
+	return nullptr;
+}
+
+Unit* Arena::Find_Monster_ByUnitName(const char* InName, uint64_t InSize)
+{
+	if (!Check_Container_IsValid())
+		return nullptr;
+
+	for (int i = 0; i < ContainerSize; i++)
+	{
+		Unit* temp = ContainerStart + i;
+
+		if (temp->Unit_Index != -1 && temp->Unit_Monster != nullptr && temp->Unit_Monster->Query_IsEqualName(InName, InSize))
+			return temp;
+	}
+
+	return nullptr;
+}
+
+bool Arena::Check_Container_IsValid()
+{
+	return ContainerCount != 0 && ContainerStart != nullptr && ContainerSize > 0 ? true : false;
+}
