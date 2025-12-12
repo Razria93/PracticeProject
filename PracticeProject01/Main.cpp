@@ -1,66 +1,44 @@
-#include "Monster.h"
 #include <iostream>
+
+#include "GlobalStructure.h"
+#include "Monster.h"
+#include "Arena.h"
 
 int main()
 {
-	Monster* monster0 = new Monster;
-	Monster* monster1 = new Monster;
-	Monster* monster2 = new Monster;
+	uint64_t containerSize = 10;
+	Arena* arena = new Arena(containerSize);
 
-	StatusData status0 = StatusData{ "MONSTER0", sizeof("MONSTER0"),100.f, 15.f, 5.f, Attribute::Earth};
-	StatusData status1 = StatusData{ "MONSTER1", sizeof("MONSTER1"), 50.f, 30.f, 10.f, Attribute::Water };
-	StatusData status2 = StatusData{ "MONSTER2", sizeof("MONSTER2"), 80.f, 20.f, 5.f, Attribute::Fire };
+	// arena->Initialize(containerSize);
 
-	monster0->initialize(status0);
-	monster1->initialize(status1);
-	monster2->initialize(status2);
+	StatusData statusData0 = StatusData{ "MONSTER0", sizeof("MONSTER0"),100.f, 15.f, 5.f, Attribute::Earth };
+	StatusData statusData1 = StatusData{ "MONSTER1", sizeof("MONSTER1"), 50.f, 30.f, 10.f, Attribute::Water };
+	StatusData statusData2 = StatusData{ "MONSTER2", sizeof("MONSTER2"), 80.f, 20.f, 5.f, Attribute::Fire };
+	StatusData statusData3 = StatusData{ "MONSTER3", sizeof("MONSTER3"), 20.f, 20.f, 30.f, Attribute::Wind };
 
-	printf("\n======================\n");
-	printf("\nStatus\n");
-	printf("\n======================\n");
+	arena->Add_Monster(statusData0);
+	arena->Add_Monster(statusData1);
+	arena->Add_Monster(statusData2);
+	arena->Add_Monster(statusData3);
+
+	arena->Print_Monster_StatusData("MONSTER0", sizeof("MONSTER0"));
+	arena->Print_Monster_StatusData("MONSTER1", sizeof("MONSTER1"));
+	arena->Print_Monster_StatusData("MONSTER2", sizeof("MONSTER2"));
+	arena->Print_Monster_StatusData("MONSTER3", sizeof("MONSTER3"));
+
+	arena->Print_Container_Member();
+	arena->Print_Container_Count();
+
+	arena->Delete_Monster(0);
+	// arena->Print_Monster_StatusData("MONSTER0", sizeof("MONSTER0"));
+
+	arena->Print_Container_Member();
+	arena->Print_Container_Count();
 	
-	monster0->PrintStatusData();
-	monster1->PrintStatusData();
-	monster2->PrintStatusData();
-
-	printf("\n======================\n");
-	printf("\nBattlePhase\n");
-	printf("\n======================\n");
-
-	while (true)
-	{
-		if (!monster0->Query_IsAlive())
-		{
-			delete monster0;
-			monster0 = nullptr;
-
-			printf("monster0 is LifePoint Zero\n");
-			printf("monster0 is destroyed\n");
-		}
-
-		if (!monster1->Query_IsAlive())
-		{
-			delete monster1;
-			monster1 = nullptr;
-
-			printf("monster1 is LifePoint Zero\n");
-			printf("monster1 is destroyed\n");
-		}
-		
-		if (monster0 == nullptr || monster1 == nullptr)
-		{
-			printf("\n======================\n");
-			printf("\nSimulation is Complete\n");
-			printf("\n======================\n");
-			break;
-		}
-
-		monster0->SendDamage(monster1);
-
-		printf("monster0.Lifepoint: %f\n", monster0->Get_Lifepoint());
-		printf("monster1.Lifepoint: %f\n", monster1->Get_Lifepoint());
-		printf("---\n");
-	}
+	arena->Print_Monster_highestHP();
+	
+	// arena->GoToAround(); 
+	arena->StartGame();
 
 	return 0;
 }
