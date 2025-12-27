@@ -15,13 +15,13 @@ int main()
 		ver_bool.push_back(data_bool);
 	}
 
-	ver_bool.pop_back();
-	ver_bool.PrintElements();
-	ver_bool.insert(2, false);
-	ver_bool.PrintElements();
-	ver_bool.erase(2);
-	ver_bool.PrintElements();
-	ver_bool.clear();
+	// ver_bool.pop_back();
+	// ver_bool.PrintElements();
+	// ver_bool.insert(2, false);
+	// ver_bool.PrintElements();
+	// ver_bool.erase(2);
+	// ver_bool.PrintElements();
+	// ver_bool.clear();
 
 
 	std::printf("------------------------------\n");
