@@ -16,6 +16,8 @@ int main()
 	}
 
 	ver_bool.pop_back();
+	ver_bool.insert(2, false);
+	ver_bool.PrintElements();
 	ver_bool.clear();
 
 
@@ -32,6 +34,8 @@ int main()
 	}
 
 	ver_char.pop_back();
+	ver_char.insert(2, 'B');
+	ver_char.PrintElements();
 	ver_char.clear();
 
 
@@ -48,6 +52,8 @@ int main()
 	}
 
 	ver_int.pop_back();
+	ver_int.insert(2, 2);
+	ver_int.PrintElements();
 	ver_int.clear();
 
 
@@ -64,6 +70,8 @@ int main()
 	}
 
 	ver_float.pop_back();
+	ver_float.insert(2, 0.2f);
+	ver_float.PrintElements();
 	ver_float.clear();
 
 
@@ -80,6 +88,8 @@ int main()
 	}
 
 	ver_longlong.pop_back();
+	ver_longlong.insert(2, 20000LL);
+	ver_longlong.PrintElements();
 	ver_longlong.clear();
 
 
