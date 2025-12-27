@@ -11,6 +11,8 @@ private:
 public:
 	CustomVector()
 	{
+		std::printf("[Constructor]\n");
+
 		Data = nullptr;
 		Capacity = 0;
 		Size = 0;
@@ -43,12 +45,18 @@ public:
 	{
 		std::printf("[push_back]\n");
 
-		if (Size == Capacity)
+		// -----------------------------------------------------------------------------------------------
+		// [TODO] Refactor
+		// 1. 'new T[n]' allocates memory AND calls default constructors for all 'n' elements.
+		// 2. 'malloc' (or allocator) only reserves raw memory without any initialization.
+		// 3. Vector uses 'placement new' to construct objects only when they are actually needed.
+
+		if (Size >= Capacity)
 		{
 			size_t newCapacity = (Capacity == 0) ? 1 : Capacity * 2;
 			if (newCapacity < Capacity) return; // overflow guard
 
-			T* tempData = new T[newCapacity];
+			T* tempData = new T[newCapacity];	
 			for (size_t i = 0; i < Size; ++i)
 				tempData[i] = Data[i];
 
@@ -56,16 +64,20 @@ public:
 			Data = tempData;
 			Capacity = newCapacity;
 		}
+		// -----------------------------------------------------------------------------------------------
 
-		Data[Size] = InData;
-		++Size;
+		if (Size < Capacity)
+		{
+			Data[Size] = InData;
+			++Size;
+		}
 
 		PrintData();
 	}
 
 	void insert(size_t InIndex, const T& InData)
 	{
-		std::printf("[insert]\n");
+		std::printf("[insert] ElementNum: %zu\n", InIndex);
 
 		// Check Area [0, Size]
 		if (InIndex > Size) return;
@@ -121,6 +133,37 @@ public:
 		PrintData();
 	}
 
+	void erase(size_t InIndex)
+	{
+		std::printf("[erase] ElementNum: %zu\n", InIndex);
+
+		// Check Area [0, Size]
+		if (InIndex >= Size) return;
+
+		// Push_Back
+		if (InIndex == Size - 1)
+		{
+			pop_back();
+			return;
+		}
+
+		// Copy Element_Forward
+		for (size_t i = 0; i < InIndex; i++)
+		{
+			Data[i] = Data[i];
+		}
+
+		// Copy Element_Backward
+		for (size_t i = InIndex; i < Size - 1; i++)
+		{
+			Data[InIndex] = Data[InIndex + 1];
+		}
+
+		--Size;
+
+		PrintData();
+	}
+
 	void pop_back()
 	{
 		std::printf("[pop_back]\n");
@@ -146,8 +189,8 @@ public:
 public:
 	void PrintData() const
 	{
-		std::printf("===\n");
-		
+		std::printf("==============================\n");
+
 		if (Data)
 		{
 			std::printf("%-15s : %p\n", "Data", (void*)Data);
@@ -162,21 +205,23 @@ public:
 			std::printf("%-15s : %zu\n", "Size", Size);
 		}
 
-		std::printf("===\n");
+		std::printf("==============================\n");
 	}
 
 	void PrintElements() const
 	{
+		std::printf("[PrintElements]\n");
+
 		if (Size <= 0) return;
 
-		std::printf("=== Print Elements ===\n");
+		std::printf("==============================\n");
 
 		for (size_t i = 0; i < Size; i++)
 		{
 			std::cout << "Element_" << i << ": " << Data[i] << std::endl;
 		}
 
-		std::printf("===\n");
+		std::printf("==============================\n");
 	}
 
 };
