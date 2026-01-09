@@ -60,16 +60,39 @@ public:
 	LinkedList& operator=(const LinkedList&) = delete;	// copy assignment operator		[deprecated]
 
 public:
-	void setSize(size_t InSize) { Size = InSize; }
+	void SetSize(size_t InSize) { Size = InSize; }
 
 public:
-	size_t getSize() const { return Size; }
+	size_t GetSize() const { return Size; }
 
 public:
-	bool empty() const { return Size == 0; }
+	bool Empty() const { return Size == 0; }
 
 public:
-	void push_back(int InValue)
+	void PushFront(int InValue)
+	{
+		Node* newNode = new Node();
+
+		newNode->Value = InValue;
+		newNode->Next = nullptr;
+
+		if (!Head)
+		{
+			Head = newNode;
+			Tail = newNode;
+		}
+		else
+		{
+			Node* oldHead = Head;
+
+			newNode->Next = oldHead;
+			Head = newNode;
+		}
+
+		++Size;
+	}
+
+	void PushBack(int InValue)
 	{
 		Node* newNode = new Node();
 
@@ -84,6 +107,7 @@ public:
 		else
 		{
 			Node* oldTail = Tail;
+
 			oldTail->Next = newNode;
 			Tail = newNode;
 		}
