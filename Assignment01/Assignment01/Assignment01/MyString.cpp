@@ -48,6 +48,13 @@ MyString::MyString(const MyString& other)
 
 MyString::~MyString()
 {
+	printf("\n[Destructor]\n");
+
+	delete[] Base;
+	Base = nullptr;
+	Length = 0;
+
+	printf("NewBasePtr: %p | FinalSize: %zd\n", Base, Length);
 }
 
 unsigned int MyString::GetLength() const

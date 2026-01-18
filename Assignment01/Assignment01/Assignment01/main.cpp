@@ -6,4 +6,4 @@ int main()
 {
 	MyString str01("Hello");
 	return 0;
-}
+} // Call Destructor
