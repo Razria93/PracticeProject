@@ -59,12 +59,12 @@ MyString::~MyString()
 
 unsigned int MyString::GetLength() const
 {
-	return 0;
+	return Length;
 }
 
 const char* MyString::GetCString() const
 {
-	return 0;
+	return Base;
 }
 
 void MyString::Append(const char* s)
