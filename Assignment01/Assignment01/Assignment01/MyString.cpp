@@ -1,10 +1,45 @@
 #include "MyString.h"
+#include <cstdio>
 
 namespace assignment1
 {
-
 MyString::MyString(const char* s)
 {
+	printf("\n[Default-Constructor]\n");
+
+	const char* temp = s;
+	size_t length = 0;
+
+	while (true)
+	{
+		temp = s + length;
+
+		if (*temp == '\0')
+		{
+
+			printf("Find '\\0'\n");
+			printf("OldBasePtr: %p | FinalSize: %zd\n", s, length);
+			break;
+		}
+		else
+		{
+			++length;
+			printf("char: %c | pointer: %p | length: %zd\n", *temp, temp, length);
+			continue;
+		}
+	}
+
+	char* newBase = new char[length];
+
+	for (size_t i = 0; i < length; ++i)
+	{
+		*(newBase + i) = *(s + i);
+		printf("Input: %c | Output: %c | idx: %zd\n", *(newBase + i), *(s + i), i);
+	}
+
+	Base = newBase;
+	Length = length;
+	printf("NewBasePtr: %p | FinalSize: %zd\n", Base, Length);
 }
 
 MyString::MyString(const MyString& other)
