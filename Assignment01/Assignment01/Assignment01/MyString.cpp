@@ -39,7 +39,7 @@ MyString::MyString(const char* s)
 
 	Base = newBase;
 	Length = length;
-	printf("NewBasePtr: %p | FinalSize: %zd\n\n", Base, Length);
+	printf("NewBasePtr: %p | FinalSize: %zd\n", Base, Length);
 }
 
 MyString::MyString(const MyString& other)
@@ -61,7 +61,7 @@ MyString::MyString(const MyString& other)
 	for (int i = 0; i < otherLength; ++i)
 	{
 		char newChar = *(otherBase + i);
-		
+
 		if (newChar == '\0')
 		{
 			newLength = i;
