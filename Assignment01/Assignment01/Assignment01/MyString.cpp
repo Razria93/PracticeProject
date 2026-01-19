@@ -3,6 +3,13 @@
 
 namespace assignment1
 {
+
+MyString::MyString()
+{
+	Base = nullptr;
+	Length = 0;
+}
+
 MyString::MyString(const char* s)
 {
 	printf("\n[Default-Constructor]\n");
@@ -80,6 +87,8 @@ MyString::~MyString()
 {
 	printf("\n[Destructor]\n");
 
+	printf("OldBasePtr: %p | FinalSize: %zd\n", Base, Length);
+
 	delete[] Base;
 	Base = nullptr;
 	Length = 0;
@@ -132,7 +141,7 @@ void MyString::Append(const char* s)
 
 	for (size_t j = 0; j < length; ++j)
 	{
-		
+
 		newBase[Length + j] = *(s + j);
 	}
 
@@ -143,7 +152,37 @@ void MyString::Append(const char* s)
 
 MyString MyString::operator+(const MyString& other) const
 {
-	return MyString("temporary");
+	printf("\n[operator+ Override]\n");
+
+	const char* otherBase = other.Base;
+	size_t otherLength = other.Length;
+
+	if (!otherBase)
+	{
+		printf("Base pointer is nullptr\n");
+		return MyString();
+	}
+
+	char* newBase = new char[Length + otherLength];
+
+	for (size_t i = 0; i < Length; ++i)
+	{
+		newBase[i] = Base[i];
+	}
+
+	for (size_t j = 0; j < otherLength; ++j)
+	{
+
+		newBase[Length + j] = other.Base[j];
+	}
+
+	MyString newString;
+	newString.Base = newBase;
+	newString.Length = Length + otherLength;
+	
+	// newString.Print();
+
+	return newString;
 }
 
 int MyString::IndexOf(const char* s)

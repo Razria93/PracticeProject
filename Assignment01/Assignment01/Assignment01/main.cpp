@@ -19,5 +19,13 @@ int main()
 	str02.Append(" World!");
 	str02.Print();
 
+	// [Why the Copy Constructor and Destructor are Invoked]
+	// 1. Temporary object creation: Result of 'str01 + str02'
+	// 2. Copy construction: 'str03' initialized from the temporary object
+	// 3. Destruction: Temporary object destroyed at the semicolon (;)
+	MyString str03 = str01 + str02;
+	printf("str03: %p\n", &str03);
+	str03.Print();
+
 	return 0;
 } // Call Destructor

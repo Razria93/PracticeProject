@@ -9,6 +9,7 @@ class MyString
 	size_t Length = 0;
 
   public:
+	MyString();
 	MyString(const char* s);
 	MyString(const MyString& other);
 	~MyString();
