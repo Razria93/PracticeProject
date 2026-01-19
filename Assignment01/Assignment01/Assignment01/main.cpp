@@ -10,5 +10,9 @@ int main()
 	size_t getLength = str01.GetLength();
 	printf("getBase: %p | getLength: %zd\n", getBase, getLength);
 	str01.Print();
+
+	MyString str02(str01);
+	str02.Print();
+
 	return 0;
 } // Call Destructor

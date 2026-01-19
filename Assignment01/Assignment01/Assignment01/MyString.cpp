@@ -44,6 +44,36 @@ MyString::MyString(const char* s)
 
 MyString::MyString(const MyString& other)
 {
+	printf("\n[Copy-Constructor]\n");
+
+	const char* otherBase = other.Base;
+	size_t otherLength = other.Length;
+
+	if (!otherBase)
+	{
+		printf("Base pointer is nullptr\n");
+		return;
+	}
+
+	char* newBase = new char[otherLength];
+	size_t newLength = otherLength;
+
+	for (int i = 0; i < otherLength; ++i)
+	{
+		char newChar = *(otherBase + i);
+		
+		if (newChar == '\0')
+		{
+			newLength = i;
+			printf("'\\0' is Valid in other MyString and early return\n");
+			break;
+		}
+
+		newBase[i] = newChar;
+	}
+
+	Base = newBase;
+	Length = newLength;
 }
 
 MyString::~MyString()
