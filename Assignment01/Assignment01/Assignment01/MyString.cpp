@@ -33,13 +33,13 @@ MyString::MyString(const char* s)
 
 	for (size_t i = 0; i < length; ++i)
 	{
-		*(newBase + i) = *(s + i);
+		newBase[i] = *(s + i);
 		printf("Input: %c | Output: %c | idx: %zd\n", *(newBase + i), *(s + i), i);
 	}
 
 	Base = newBase;
 	Length = length;
-	printf("NewBasePtr: %p | FinalSize: %zd\n", Base, Length);
+	printf("NewBasePtr: %p | FinalSize: %zd\n\n", Base, Length);
 }
 
 MyString::MyString(const MyString& other)
