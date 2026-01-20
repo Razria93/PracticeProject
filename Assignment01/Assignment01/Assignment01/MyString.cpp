@@ -593,7 +593,7 @@ void MyString::Print()
 
 		if (newChar == '\0')
 		{
-			printf("'\\0' is Valid in target MyString and early return\n");
+			printf("'\\0' is Found in target MyString and early return\n");
 			break;
 		}
 
