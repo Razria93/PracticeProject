@@ -506,6 +506,39 @@ bool MyString::RemoveAt(unsigned int index)
 
 void MyString::PadLeft(unsigned int totalLength)
 {
+	printf("\n[PadLeft]\n");
+
+	if (totalLength <= Length)
+	{
+		printf("Specified TotalLength is too small for padding\n");
+		printf("InTotalLength: %d | StringLength: %zd\n", totalLength, Length);
+		return;
+	}
+
+	char* newBase = new char[totalLength + 1];
+	size_t newLength = totalLength;
+
+	size_t lengthSubtract = totalLength - Length;
+
+	for (size_t i = 0; i < lengthSubtract; ++i)
+	{
+		newBase[i] = ' ';
+	}
+
+	for (size_t j = 0; j < Length; ++j)
+	{
+		newBase[lengthSubtract + j] = Base[j];
+	}
+
+	newBase[newLength] = '\0';
+	Clear();
+
+	Base = newBase;
+	Length = newLength;
+
+	printf("NewBasePtr: %p | FinalSize: %zd\n", Base, Length);
+
+	return;
 }
 
 void MyString::PadLeft(unsigned int totalLength, const char c)

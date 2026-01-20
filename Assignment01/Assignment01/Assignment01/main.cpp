@@ -50,5 +50,9 @@ int main()
 	str04.RemoveAt(10);
 	str04.Print();
 
+	MyString str05("PadLeft");
+	str05.PadLeft(10);
+	str05.Print();
+
 	return 0;
 } // Call Destructor
