@@ -585,6 +585,38 @@ void MyString::PadLeft(unsigned int totalLength, const char c)
 
 void MyString::PadRight(unsigned int totalLength)
 {
+	printf("\n[PadRight]\n");
+
+	if (totalLength <= Length)
+	{
+		printf("Specified TotalLength is too small for padding\n");
+		printf("InTotalLength: %d | StringLength: %zd\n", totalLength, Length);
+		return;
+	}
+
+	char* newBase = new char[totalLength + 1];
+	size_t newLength = totalLength;
+	size_t lengthSubtract = totalLength - Length;
+
+	for (size_t i = 0; i < Length; ++i)
+	{
+		newBase[i] = Base[i];
+	}
+
+	for (size_t j = 0; j < lengthSubtract; ++j)
+	{
+		newBase[Length + j] = ' ';
+	}
+
+	newBase[newLength] = '\0';
+	Clear();
+
+	Base = newBase;
+	Length = newLength;
+
+	printf("NewBasePtr: %p | FinalSize: %zd\n", Base, Length);
+
+	return;
 }
 
 void MyString::PadRight(unsigned int totalLength, const char c)

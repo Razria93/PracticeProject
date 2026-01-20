@@ -62,5 +62,9 @@ int main()
 	str07.PadLeft(10, '#');
 	str07.Print();
 
+	MyString str08("PadRight_1");
+	str08.PadRight(15);
+	str08.Print();
+
 	return 0;
 } // Call Destructor
