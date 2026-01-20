@@ -86,5 +86,14 @@ int main()
 	str13.Reverse();
 	str13.Print();
 
+	MyString str14("Change");
+	MyString str15("Change");
+
+	printf("str11 and str12 is equal? : %s", (str14 == str15) ? "true" : "false\n"); // true
+
+	str14.Reverse();
+
+	printf("str11 and str12 is equal? : %s", (str14 == str15) ? "true" : "false\n"); // false
+
 	return 0;
 } // Call Destructor

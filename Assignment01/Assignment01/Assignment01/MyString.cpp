@@ -684,7 +684,34 @@ void MyString::Reverse()
 
 bool MyString::operator==(const MyString& rhs) const
 {
-	return false;
+	printf("\n[operator== Override]\n");
+
+	if (Length != rhs.Length)
+	{
+		printf("Length is not Equal\n");
+		printf("Length: %zd | rhs.Length: %zd\n", Length, rhs.Length);
+		return false;
+	}
+
+	bool bEqual = false;
+	
+	for (size_t i = 0; i < Length; ++i)
+	{
+		if (Base[i] != rhs.Base[i])
+		{
+			printf("Base is not Equal\n");
+			printf("Base[%zd]: %c | rhs[%zd]: %c\n", i, Base[i], i, rhs.Base[i]);
+			
+			bEqual = false;
+			return false;
+		}
+		else // Base[i] == rhs.Base[i]
+		{
+			bEqual = true;
+		}
+	}
+
+	return bEqual;
 }
 
 void MyString::ToLower()
