@@ -467,6 +467,40 @@ void MyString::Interleave(const char* s)
 
 bool MyString::RemoveAt(unsigned int index)
 {
+	printf("\n[RemoveAt]\n");
+
+	if (index >= Length)
+	{
+		printf("Index out of range\n");
+		printf("InIndex: %d | Length: %zd\n", index, Length);
+		return false;
+	}
+
+	printf("InIdex: %d | Target: %c\n", index, Base[index]);
+
+	char* newBase = new char[Length];
+	size_t newLength = Length - 1;
+
+	for (int i = 0; i < newLength; ++i)
+	{
+		if (i < index)
+		{
+			newBase[i] = Base[i];
+		}
+		else // i >= index
+		{
+			newBase[i] = Base[i + 1];
+		}
+	}
+
+	newBase[newLength] = '\0';
+	Clear();
+
+	Base = newBase;
+	Length = newLength;
+
+	printf("NewBasePtr: %p | FinalSize: %zd\n", Base, Length);
+
 	return false;
 }
 

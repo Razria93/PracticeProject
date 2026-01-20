@@ -45,5 +45,10 @@ int main()
 	str04.Interleave("Change");
 	str04.Print();
 
+	str04.RemoveAt(10);
+	str04.Print();
+	str04.RemoveAt(10);
+	str04.Print();
+
 	return 0;
 } // Call Destructor
