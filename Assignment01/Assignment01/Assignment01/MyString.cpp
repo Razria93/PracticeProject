@@ -694,14 +694,14 @@ bool MyString::operator==(const MyString& rhs) const
 	}
 
 	bool bEqual = false;
-	
+
 	for (size_t i = 0; i < Length; ++i)
 	{
 		if (Base[i] != rhs.Base[i])
 		{
 			printf("Base is not Equal\n");
 			printf("Base[%zd]: %c | rhs[%zd]: %c\n", i, Base[i], i, rhs.Base[i]);
-			
+
 			bEqual = false;
 			return false;
 		}
@@ -716,6 +716,24 @@ bool MyString::operator==(const MyString& rhs) const
 
 void MyString::ToLower()
 {
+	int a = (int)'a';	// 97
+	int A = (int)'A';	// 65
+	int subtract = a - A;
+
+	printf("a: %d | A: %d | subtract: %d\n", a, A, subtract);
+
+	for (int i = 0; i < Length; ++i)
+	{
+		char temp = Base[i];
+		printf("%c: %d\n", temp, (int)temp);
+
+		if (temp >= A && temp < a)
+		{
+			int temp_int = (int)Base[i] + subtract;
+			Base[i] = (char)temp_int;
+			printf("Before: %d(%c) | After: %d(%c)\n", (int)temp, temp, temp_int, (char)temp_int);
+		}
+	}
 }
 
 void MyString::ToUpper()

@@ -88,12 +88,20 @@ int main()
 
 	MyString str14("Change");
 	MyString str15("Change");
-
 	printf("str11 and str12 is equal? : %s", (str14 == str15) ? "true" : "false\n"); // true
 
 	str14.Reverse();
-
 	printf("str11 and str12 is equal? : %s", (str14 == str15) ? "true" : "false\n"); // false
+
+	MyString str16("LoWer");
+	
+	printf("\n[Before]");
+	str16.Print();
+	
+	str16.ToLower();
+
+	printf("\n[After]");
+	str16.Print();
 
 	return 0;
 } // Call Destructor
