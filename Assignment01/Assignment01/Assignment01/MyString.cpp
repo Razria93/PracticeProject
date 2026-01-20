@@ -276,7 +276,106 @@ int MyString::IndexOf(const char* s)
 
 int MyString::LastIndexOf(const char* s)
 {
-	return 0;
+	printf("\n[LastIndexOf]\n");
+
+	const char* base = s;
+	size_t length = 0;
+
+	const char* temp = nullptr;
+
+	while (true)
+	{
+		temp = base + length;
+
+		if (*temp == '\0')
+		{
+
+			printf("Find '\\0'\n");
+			printf("InBasePtr: %p | FinalSize: %zd\n", s, length);
+			break;
+		}
+		else
+		{
+			++length;
+			printf("char: %c | pointer: %p | length: %zd\n", *temp, temp, length);
+			continue;
+		}
+	}
+
+	bool bEqualStart = false;
+	bool bEqualEnd = false;
+	bool bEqualStart_cached = false;
+	bool bEqualEnd_cached = false;
+
+	size_t startIdx = 0;
+	size_t endIdx = 0;
+	size_t startIdx_cached = 0;
+	size_t endIdx_cached = 0;
+
+	for (size_t i = 0; i < Length; ++i)
+	{
+		for (size_t j = 0; j < length; ++j)
+		{
+			if (Base[i + j] == base[j])
+			{
+				if (bEqualStart == false)
+				{
+					if (length == 1)
+					{
+						bEqualStart_cached = true;
+						bEqualEnd_cached = true;
+
+						startIdx_cached = i + j;
+						endIdx_cached = i + j;
+
+						break;
+					}
+					else
+					{
+						startIdx = i + j;
+						bEqualStart = true;
+
+						continue;
+					}
+				}
+				else if (bEqualEnd == false && j == (length - 1))
+				{
+					endIdx = i + j;
+					bEqualEnd = true;
+
+					bEqualStart_cached = bEqualStart;
+					bEqualEnd_cached = bEqualEnd;
+					startIdx_cached = startIdx;
+					endIdx_cached = endIdx;
+
+					bEqualStart = false;
+					bEqualEnd = false;
+					startIdx = 0;
+					endIdx = 0;
+
+					continue;
+				}
+			}
+			else
+			{
+				bEqualStart = false;
+				bEqualEnd = false;
+				startIdx = 0;
+				endIdx = 0;
+
+				continue;
+			}
+		} // for j
+	} // for i
+
+	if (bEqualStart_cached == true && bEqualEnd_cached == true)
+	{
+		printf("Valid equal string[startIdx: %zd | endIdx: %zd]\n", startIdx_cached, endIdx_cached);
+		return (int)startIdx_cached;
+	}
+
+	printf("InValid equal string\n");
+	return -1;
 }
 
 void MyString::Interleave(const char* s)
