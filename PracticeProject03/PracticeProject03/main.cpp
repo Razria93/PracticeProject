@@ -14,6 +14,12 @@ int main()
 	linkedList->PushBack(300);
 	LinkedList::PrintLinkedListData(linkedList);
 
+	std::printf("## PushFront ##\n");
+	linkedList->PushFront(400);
+	linkedList->PushFront(500);
+	linkedList->PushFront(600);
+	LinkedList::PrintLinkedListData(linkedList);
+
 	delete linkedList;
 	return 0;
 }

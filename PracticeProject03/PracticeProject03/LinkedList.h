@@ -85,6 +85,35 @@ public:
 	}
 
 public:
+	void PushFront(int InValue)
+	{
+		std::printf("[PushFront]\n");
+		Node* newNode = new Node();
+
+		// Init Push Node
+		newNode->Value = InValue;
+		newNode->Next = nullptr;
+
+		if (!Head) // Init LinkedList
+		{
+			Head = newNode;
+
+			if (!Tail)
+			{
+				Tail = newNode;
+			}
+		}
+		else // Add to LinkedList
+		{
+			Node* oldHead = Head;
+
+			newNode->Next = oldHead;
+			Head = newNode;
+		}
+
+		++Size;
+	}
+
 	void PushBack(int InValue)
 	{
 		std::printf("[PushBack]\n");
