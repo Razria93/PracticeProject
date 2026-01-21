@@ -42,7 +42,7 @@ public:
 	}
 
 public:
-	size_t Size() const { return Size; }
+	size_t GetSize() const { return Size; }
 
 public:
 	bool Empty() { return Size == 0; }
@@ -52,7 +52,7 @@ public:
 	{
 		std::printf("[Clear]\n");
 
-		for (int i = 0; i < Size; ++i)
+		for (size_t i = 0; i < Size; ++i)
 		{
 			if (!Head) break;
 
