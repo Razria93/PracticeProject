@@ -27,4 +27,11 @@ private:
 	Node* Head = nullptr;
 	Node* Tail = nullptr;
 	size_t Size = 0;
+
+public:
+	LinkedList()
+		: Head(nullptr), Tail(nullptr), Size(0)
+	{
+		std::printf("[Constructor]\n");
+	}
 };
