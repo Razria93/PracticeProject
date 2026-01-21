@@ -7,16 +7,17 @@ struct Node
 {
 public:
 	int Value = 0;
+	Node* Prev = nullptr;
 	Node* Next = nullptr;
 
 public:
 	Node()
-		: Value(0), Next(nullptr)
+		: Value(0), Prev(nullptr), Next(nullptr)
 	{
 	}
 
 	Node(const int InValue)
-		: Value(InValue), Next(nullptr)
+		: Value(InValue), Prev(nullptr), Next(nullptr)
 	{
 	}
 };
@@ -72,6 +73,7 @@ public:
 		// PrintNodeData(InNode, InIndex);
 
 		InNode->Value = 0;
+		InNode->Prev = nullptr;
 		InNode->Next = nullptr;
 
 		// std::printf("[Delete(After)]\n");
@@ -87,6 +89,7 @@ public:
 
 		// Init Push Node
 		newNode->Value = InValue;
+		newNode->Prev = nullptr;
 		newNode->Next = nullptr;
 
 		if (!Head) // Init LinkedList
@@ -103,6 +106,7 @@ public:
 			Node* oldHead = Head;
 
 			newNode->Next = oldHead;
+			oldHead->Prev = newNode;
 			Head = newNode;
 		}
 
@@ -115,6 +119,7 @@ public:
 
 		// Init Push Node
 		newNode->Value = InValue;
+		newNode->Prev = nullptr;
 		newNode->Next = nullptr;
 
 		if (!Tail) // Init LinkedList
@@ -130,6 +135,7 @@ public:
 		{
 			Node* oldTail = Tail;
 
+			newNode->Prev = oldTail;
 			oldTail->Next = newNode;
 			Tail = newNode;
 		}
@@ -156,11 +162,13 @@ public:
 		Node* afterNode = oldHead->Next;
 		if (!afterNode)
 		{
-			std::printf("%-15s : Pointer: %p | Index: %d\n", "Error", afterNode, 0);
+			std::printf("%-15s : Pointer: %s | Index: %d\n", "Error", "nullptr", (int)oldHeadIdx + 1);
 			return false;
 		}
 		else
 		{
+			afterNode->Prev = nullptr;
+
 			Head = afterNode;
 			Size = newSize;
 
@@ -173,7 +181,6 @@ public:
 public:
 	bool PopBack()
 	{
-		if (!Head) return false;
 		if (!Tail) return false;
 
 		if (Size <= 1)
@@ -187,42 +194,21 @@ public:
 
 		size_t newSize = Size - 1;
 
-		Node* beforeNode = nullptr;
-		for (size_t i = 0; i < newSize; ++i)
+		Node* beforeNode = oldTail->Prev;
+		if (!beforeNode)
 		{
-			if (i == 0) // Init
-			{
-				beforeNode = Head;
-				continue;
-			}
+			std::printf("%-15s : Pointer: %s | Index: %d\n", "Error", "nullptr", (int)oldTailIdx - 1);
+			return false;
+		}
+		else
+		{
+			beforeNode->Next = nullptr;
 
-			// UpdateNextNode
-			Node* curNode = beforeNode->Next;
+			Tail = beforeNode;
+			Size = newSize;
 
-			// Validate
-			if (!curNode)
-			{
-				std::printf("%-15s : Pointer: %p | Index: %zd\n", "Error", curNode, i);
-				return false;
-			}
-
-			// Check Index
-			if (i < (newSize - 1))
-			{
-				beforeNode = curNode;
-				curNode = nullptr;
-				continue;
-			}
-			else // Last index (i == (newSize - 1))
-			{
-				curNode->Next = nullptr;
-
-				Tail = curNode;
-				Size = newSize;
-
-				Delete(oldTail, oldTailIdx);
-				return true;
-			}
+			Delete(oldTail, oldTailIdx);
+			return true;
 		}
 		return false; // Undefined
 	}
@@ -314,6 +300,7 @@ public:
 
 		Node* newNode = new Node;
 		newNode->Value = InValue;
+		newNode->Prev = nullptr;
 		newNode->Next = nullptr;
 
 		if (InIndex == 0) // Head is Valid 
@@ -321,11 +308,13 @@ public:
 			Node* beforeNode = Head;
 			Node* afterNode = Head->Next;
 
+			newNode->Prev = beforeNode;
 			beforeNode->Next = newNode;
 
 			if (afterNode)
 			{
 				newNode->Next = afterNode;
+				afterNode->Prev = newNode;
 			}
 			else
 			{
@@ -369,11 +358,13 @@ public:
 				Node* beforeNode = curNode;
 				Node* afterNode = curNode->Next;
 
+				newNode->Prev = beforeNode;
 				beforeNode->Next = newNode;
 
 				if (afterNode)
 				{
 					newNode->Next = afterNode;
+					afterNode->Prev = newNode;
 				}
 				else
 				{
@@ -409,6 +400,7 @@ public:
 			if (afterNode)
 			{
 				curNode->Next = afterNode;
+				afterNode->Prev = curNode;
 			}
 			else
 			{
@@ -458,6 +450,7 @@ public:
 				if (afterNode)
 				{
 					curNode->Next = afterNode;
+					afterNode->Prev = curNode;
 				}
 				else
 				{
@@ -515,6 +508,7 @@ public:
 		std::printf("%-15s : %p\n", "NodePointer", (void*)InNode);
 		std::printf("%-15s : %s\n", "ValueType", typeid(int).name());
 		std::printf("%-15s : %d\n", "Value", (int)InNode->Value);
+		std::printf("%-15s : %p\n", "PrevNode", (void*)InNode->Prev);
 		std::printf("%-15s : %p\n", "NextNode", (void*)InNode->Next);
 		std::printf("----------------------------------------\n");
 	}
