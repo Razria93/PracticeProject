@@ -22,6 +22,11 @@ int main()
 	LinkedList::PrintLinkedListData(linkedList);
 	LinkedList::PrintAllNodeData(linkedList);
 
+	std::printf("## Clear ##\n");
+	linkedList->Clear();
+	LinkedList::PrintLinkedListData(linkedList);
+	LinkedList::PrintAllNodeData(linkedList);
+
 	delete linkedList;
 	return 0;
 }
