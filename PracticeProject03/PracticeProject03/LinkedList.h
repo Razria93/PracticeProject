@@ -34,4 +34,26 @@ public:
 	{
 		std::printf("[Constructor]\n");
 	}
+
+	~LinkedList()
+	{
+		std::printf("[Destructor]\n");
+		
+		for (int i = 0; i < Size; ++i)
+		{
+			if (!Head) break;
+
+			Node* oldHead = Head;
+			Head = Head->Next;
+
+			oldHead->Value = 0;
+			oldHead->Next = nullptr;
+
+			delete oldHead;
+		}
+
+		Head = nullptr;
+		Tail = nullptr;
+		Size = 0;
+	}
 };
