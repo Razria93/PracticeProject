@@ -235,6 +235,54 @@ public:
 	}
 
 public:
+	bool Contain(size_t InIndex)
+	{
+		if (!Head) return false;
+		if (InIndex >= Size) return false;
+
+		if (InIndex == 0) return true; // Head is Valid
+
+		Node* target = nullptr;
+
+		Node* beforeNode = nullptr;
+		for (size_t i = 0; i <= InIndex; ++i)
+		{
+			if (i == 0) // Init
+			{
+				if (!Head) return false;
+
+				beforeNode = Head;
+				continue;
+			}
+
+			// UpdateNextNode
+			Node* curNode = beforeNode->Next;
+
+			// Validate
+			if (!curNode)
+			{
+				std::printf("%-15s : Pointer: %p | Index: %zd\n", "Error", curNode, i);
+				return false;
+			}
+
+			// Check Index
+			if (i < (InIndex))
+			{
+				beforeNode = curNode;
+				continue;
+			}
+			else // Last index (i == newSize)
+			{
+				target = curNode;
+				break;
+			}
+		}
+
+		std::printf("%-15s : Pointer: %p | Index: %zd\n", "Valid", target, InIndex);
+		return true;
+	}
+
+public:
 	static void PrintLinkedListData(LinkedList* InLinkedList)
 	{
 		std::printf("========================================\n");
