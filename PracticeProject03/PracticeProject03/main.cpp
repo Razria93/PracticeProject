@@ -63,6 +63,12 @@ int main()
 	LinkedList::PrintLinkedListData(linkedList);
 	LinkedList::PrintAllNodeData(linkedList);
 
+	std::printf("## erase_after##\n");
+	size_t targetIdx_erase = 0;
+	std::printf("%-15s : %-5s\n", "Insert_after", linkedList->erase_after(targetIdx_erase) ? "true" : "false");
+	LinkedList::PrintLinkedListData(linkedList);
+	LinkedList::PrintAllNodeData(linkedList);
+
 	std::printf("## Clear ##\n");
 	linkedList->Clear();
 	// LinkedList::PrintLinkedListData(linkedList);
