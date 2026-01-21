@@ -261,7 +261,7 @@ public:
 				curNode = nullptr;
 				continue;
 			}
-			else // Last index (i == newSize)
+			else // Last index (i == InIndex)
 			{
 				std::printf("%-15s : Pointer: %p | Index: %zd\n", "Valid", curNode, InIndex);
 				return true;
@@ -323,7 +323,7 @@ public:
 
 			beforeNode->Next = newNode;
 
-			if(afterNode)
+			if (afterNode)
 			{
 				newNode->Next = afterNode;
 			}
@@ -364,7 +364,7 @@ public:
 				curNode = nullptr;
 				continue;
 			}
-			else // Last index (i == newSize)
+			else // Last index (i == InIndex)
 			{
 				Node* beforeNode = curNode;
 				Node* afterNode = curNode->Next;
