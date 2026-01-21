@@ -32,12 +32,10 @@ public:
 	LinkedList()
 		: Head(nullptr), Tail(nullptr), Size(0)
 	{
-		std::printf("[Constructor]\n");
 	}
 
 	~LinkedList()
 	{
-		std::printf("[Destructor]\n");
 		Clear();
 	}
 
@@ -50,8 +48,6 @@ public:
 public:
 	void Clear()
 	{
-		std::printf("[Clear]\n");
-
 		for (size_t i = 0; i < Size; ++i)
 		{
 			if (!Head) break;
@@ -72,22 +68,21 @@ public:
 	{
 		if (!InNode) return;
 
-		std::printf("[Delete(Before)]\n");
-		PrintNodeData(InNode, InIndex);
+		// std::printf("[Delete(Before)]\n");
+		// PrintNodeData(InNode, InIndex);
 
 		InNode->Value = 0;
 		InNode->Next = nullptr;
 
-		std::printf("[Delete(After)]\n");
-		PrintNodeData(InNode, InIndex);
-		
+		// std::printf("[Delete(After)]\n");
+		// PrintNodeData(InNode, InIndex);
+
 		delete InNode;
 	}
 
 public:
 	void PushFront(int InValue)
 	{
-		std::printf("[PushFront]\n");
 		Node* newNode = new Node();
 
 		// Init Push Node
@@ -116,7 +111,6 @@ public:
 
 	void PushBack(int InValue)
 	{
-		std::printf("[PushBack]\n");
 		Node* newNode = new Node();
 
 		// Init Push Node
@@ -147,9 +141,6 @@ public:
 	void PopFront()
 	{
 		if (!Head) return;
-
-		std::printf("[PopFront]\n");
-
 		if (Size <= 1) Clear();
 
 		Node* oldHead = Head;
@@ -165,9 +156,6 @@ public:
 	{
 		if (!Head) return;
 		if (!Tail) return;
-
-		std::printf("[PopBack]\n");
-
 		if (Size <= 1) Clear();
 
 		Node* newTail = nullptr;
@@ -195,7 +183,7 @@ public:
 				}
 				else
 				{
-					std::printf("Error: InValid NextNode(idx: %zd)\n", i);
+					std::printf("%-15s : %s [idx: %zd]\n", "Error", "InValid NextNode", i);
 					return;
 				}
 			}
@@ -234,25 +222,23 @@ public:
 
 	static void PrintNodeData(const Node* InNode, size_t InIndex)
 	{
-		std::printf("========================================\n");
+		std::printf("----------------------------------------\n");
 		std::printf("[%s]\n", "PrintNodeData");
 
 		if (InNode == nullptr)
 		{
-			std::printf("----------------------------------------\n");
 			std::printf("%-15s : %s\n", "Node", "nullptr");
-			std::printf("========================================\n");
+			std::printf("----------------------------------------\n");
+
 			return;
 		}
 
-		std::printf("----------------------------------------\n");
-		std::printf("[%s]\n", "PrintNodeData");
 		std::printf("%-15s : %zu\n", "NodeIndex", InIndex);
 		std::printf("%-15s : %p\n", "NodePointer", (void*)InNode);
 		std::printf("%-15s : %s\n", "ValueType", typeid(int).name());
 		std::printf("%-15s : %d\n", "Value", (int)InNode->Value);
 		std::printf("%-15s : %p\n", "NextNode", (void*)InNode->Next);
-		std::printf("========================================\n");
+		std::printf("----------------------------------------\n");
 	}
 
 	static void PrintAllNodeData(LinkedList* InLinkedList)
