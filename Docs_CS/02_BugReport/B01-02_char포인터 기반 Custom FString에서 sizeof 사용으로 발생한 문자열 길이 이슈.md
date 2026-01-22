@@ -14,6 +14,7 @@
 ### 브랜치명
 - feature/monster
 
+
 ---
 
 ## 요약
@@ -22,12 +23,14 @@
 - 하지만 `sizeof`는 **포인터 크기(8바이트)**만 반환하므로 실제 문자열 길이를 얻지 못해 버그 발생  
 - 해결을 위해 **문자열 길이(size)를 외부에서 직접 전달받는 방식으로 리팩토링**함
 
+
 ---
 
 ## 개발환경
 - IDE: Visual Studio 2022  
 - C++17  
 - 표준 문자열 라이브러리(std::vector / std::string 등) 사용 제한 환경
+
 
 ---
 
@@ -53,6 +56,7 @@ void Monster::Set_Name(const char* InName)
     printf("Name:%s\n", Name);
 }
 ```
+
 
 ---
 

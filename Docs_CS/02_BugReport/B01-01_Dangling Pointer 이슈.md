@@ -14,11 +14,13 @@
 ### 브랜치명
 - feature/monster
 
+
 ---
 
 ## 요약
 - `delete` 후 포인터가 `nullptr`로 변경되지 않아 **Dangling Pointer** 문제가 발생함  
 - 포인터를 명시적으로 `nullptr`로 초기화하여 해결
+
 
 ---
 
@@ -26,6 +28,7 @@
 - IDE: Visual Studio 2022  
 - C++17  
 - 표준 문자열 라이브러리(std::string 등) 사용 제한 환경
+
 
 ---
 
@@ -44,6 +47,7 @@ else
     printf("temp is not nullptr\n");
 }
 ```
+
 
 ---
 
