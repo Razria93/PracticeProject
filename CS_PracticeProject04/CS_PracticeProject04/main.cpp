@@ -13,5 +13,8 @@ int main()
 	bst.Insert(200);
 	bst.Insert(100);
 
+	std::printf("\n[Clear]\n");
+	bst.Clear();
+
 	return 0;
 }
