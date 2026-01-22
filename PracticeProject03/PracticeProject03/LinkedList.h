@@ -1,44 +1,45 @@
 #pragma once
 
 #include <iostream>
+#include <iomanip>
 #include <typeinfo>
 
+template<typename T>
 struct Node
 {
 public:
-	int Value = 0;
-	Node* Prev = nullptr;
-	Node* Next = nullptr;
+	T Value;
+	Node<T>* Prev = nullptr;
+	Node<T>* Next = nullptr;
 
 public:
-	Node()
-		: Value(0), Prev(nullptr), Next(nullptr)
-	{
-	}
+	Node() = default;
 
-	Node(const int InValue)
-		: Value(InValue), Prev(nullptr), Next(nullptr)
+	Node(const T& InValue)
+		: Value(InValue)
 	{
 	}
 };
 
+template<typename T>
 class LinkedList
 {
 private:
-	Node* Head = nullptr;
-	Node* Tail = nullptr;
+	Node<T>* Head = nullptr;
+	Node<T>* Tail = nullptr;
 	size_t Size = 0;
 
 public:
-	LinkedList()
-		: Head(nullptr), Tail(nullptr), Size(0)
-	{
-	}
+	LinkedList() = default;
 
 	~LinkedList()
 	{
 		Clear();
 	}
+
+// TODO:
+// copy-constructor override
+// operator= override
 
 public:
 	size_t GetSize() const { return Size; }
@@ -53,7 +54,7 @@ public:
 		{
 			if (!Head) break;
 
-			Node* oldHead = Head;
+			Node<T>* oldHead = Head;
 			Head = Head->Next;
 
 			Delete(oldHead, i);
@@ -65,14 +66,13 @@ public:
 	}
 
 public:
-	void Delete(Node* InNode, size_t InIndex)
+	void Delete(Node<T>* InNode, size_t InIndex)
 	{
 		if (!InNode) return;
 
 		// std::printf("[Delete(Before)]\n");
 		// PrintNodeData(InNode, InIndex);
 
-		InNode->Value = 0;
 		InNode->Prev = nullptr;
 		InNode->Next = nullptr;
 
@@ -83,9 +83,9 @@ public:
 	}
 
 public:
-	void PushFront(int InValue)
+	void PushFront(const T& InValue)
 	{
-		Node* newNode = new Node();
+		Node<T>* newNode = new Node<T>();
 
 		// Init Push Node
 		newNode->Value = InValue;
@@ -103,7 +103,7 @@ public:
 		}
 		else // Add to LinkedList
 		{
-			Node* oldHead = Head;
+			Node<T>* oldHead = Head;
 
 			newNode->Next = oldHead;
 			oldHead->Prev = newNode;
@@ -113,9 +113,9 @@ public:
 		++Size;
 	}
 
-	void PushBack(int InValue)
+	void PushBack(const T& InValue)
 	{
-		Node* newNode = new Node();
+		Node<T>* newNode = new Node<T>();
 
 		// Init Push Node
 		newNode->Value = InValue;
@@ -133,7 +133,7 @@ public:
 		}
 		else  // Add to LinkedList
 		{
-			Node* oldTail = Tail;
+			Node<T>* oldTail = Tail;
 
 			newNode->Prev = oldTail;
 			oldTail->Next = newNode;
@@ -154,15 +154,15 @@ public:
 			return true;
 		}
 
-		Node* oldHead = Head;
+		Node<T>* oldHead = Head;
 		size_t oldHeadIdx = 0;
 
 		size_t newSize = Size - 1;
 
-		Node* afterNode = oldHead->Next;
+		Node<T>* afterNode = oldHead->Next;
 		if (!afterNode)
 		{
-			std::printf("%-15s : Pointer: %s | Index: %d\n", "Error", "nullptr", (int)oldHeadIdx + 1);
+			std::printf("%-15s : Pointer: %s | Index: %zd\n", "Error", "nullptr", oldHeadIdx + 1ull);
 			return false;
 		}
 		else
@@ -189,12 +189,12 @@ public:
 			return true;
 		}
 
-		Node* oldTail = Tail;
+		Node<T>* oldTail = Tail;
 		size_t oldTailIdx = Size - 1;
 
 		size_t newSize = Size - 1;
 
-		Node* beforeNode = oldTail->Prev;
+		Node<T>* beforeNode = oldTail->Prev;
 		if (!beforeNode)
 		{
 			std::printf("%-15s : Pointer: %s | Index: %d\n", "Error", "nullptr", (int)oldTailIdx - 1);
@@ -221,7 +221,7 @@ public:
 
 		if (InIndex == 0) return true; // Head is Valid
 
-		Node* beforeNode = nullptr;
+		Node<T>* beforeNode = nullptr;
 		for (size_t i = 0; i <= InIndex; ++i)
 		{
 			if (i == 0) // Init
@@ -231,7 +231,7 @@ public:
 			}
 
 			// UpdateNextNode
-			Node* curNode = beforeNode->Next;
+			Node<T>* curNode = beforeNode->Next;
 
 			// Validate
 			if (!curNode)
@@ -257,12 +257,12 @@ public:
 	}
 
 public:
-	Node* Find(int InValue)
+	Node<T>* Find(const T& InValue)
 	{
-		Node* beforeNode = nullptr;
-		Node* curNode = nullptr;
+		Node<T>* beforeNode = nullptr;
+		Node<T>* curNode = nullptr;
 
-		for (int i = 0; i < Size; ++i)
+		for (size_t i = 0; i < Size; ++i)
 		{
 			if (i == 0)
 			{
@@ -292,21 +292,21 @@ public:
 	}
 
 public:
-	bool Insert_after(size_t InIndex, int InValue)
+	bool Insert_after(size_t InIndex, const T& InValue)
 	{
 		if (!Head) return false;
 		if (!Tail) return false;
 		if (InIndex >= Size) return false;
 
-		Node* newNode = new Node;
+		Node<T>* newNode = new Node<T>;
 		newNode->Value = InValue;
 		newNode->Prev = nullptr;
 		newNode->Next = nullptr;
 
 		if (InIndex == 0) // Head is Valid 
 		{
-			Node* beforeNode = Head;
-			Node* afterNode = Head->Next;
+			Node<T>* beforeNode = Head;
+			Node<T>* afterNode = Head->Next;
 
 			newNode->Prev = beforeNode;
 			beforeNode->Next = newNode;
@@ -327,7 +327,7 @@ public:
 			return true; 
 		}
 
-		Node* beforeNode = nullptr;
+		Node<T>* beforeNode = nullptr;
 		for (size_t i = 0; i <= InIndex; ++i)
 		{
 			if (i == 0) // Init
@@ -337,7 +337,7 @@ public:
 			}
 
 			// UpdateNextNode
-			Node* curNode = beforeNode->Next;
+			Node<T>* curNode = beforeNode->Next;
 
 			// Validate
 			if (!curNode)
@@ -355,8 +355,8 @@ public:
 			}
 			else // Last index (i == InIndex)
 			{
-				Node* beforeNode = curNode;
-				Node* afterNode = curNode->Next;
+				Node<T>* beforeNode = curNode;
+				Node<T>* afterNode = curNode->Next;
 
 				newNode->Prev = beforeNode;
 				beforeNode->Next = newNode;
@@ -390,12 +390,12 @@ public:
 
 		if (InIndex == 0) // Head is Valid 
 		{
-			Node* curNode = Head;
+			Node<T>* curNode = Head;
 
-			Node* targetNode = Head->Next;
+			Node<T>* targetNode = Head->Next;
 			if (!targetNode) return false;
 
-			Node* afterNode = targetNode->Next;
+			Node<T>* afterNode = targetNode->Next;
 
 			if (afterNode)
 			{
@@ -414,7 +414,7 @@ public:
 			return true;
 		}
 
-		Node* beforeNode = nullptr;
+		Node<T>* beforeNode = nullptr;
 		for (size_t i = 0; i <= InIndex; ++i)
 		{
 			if (i == 0) // Init
@@ -424,7 +424,7 @@ public:
 			}
 
 			// UpdateNextNode
-			Node* curNode = beforeNode->Next;
+			Node<T>* curNode = beforeNode->Next;
 
 			// Validate
 			if (!curNode)
@@ -442,10 +442,10 @@ public:
 			}
 			else // Last index (i == InIndex)
 			{
-				Node* targetNode = curNode->Next;
+				Node<T>* targetNode = curNode->Next;
 				if (!targetNode) return false;
 
-				Node* afterNode = targetNode->Next;
+				Node<T>* afterNode = targetNode->Next;
 
 				if (afterNode)
 				{
@@ -470,7 +470,12 @@ public:
 	}
 
 public:
-	static void PrintLinkedListData(LinkedList* InLinkedList)
+	static void PrintValue(const T& value)
+	{
+		std::cout << "Value" << std::setw(13) << " : " << value << "\n";
+	}
+
+	static void PrintLinkedListData(LinkedList<T>* InLinkedList)
 	{
 		std::printf("========================================\n");
 		std::printf("[PrintLinkedListData]\n");
@@ -491,7 +496,7 @@ public:
 		std::printf("========================================\n");
 	}
 
-	static void PrintNodeData(const Node* InNode, size_t InIndex)
+	static void PrintNodeData(const Node<T>* InNode, size_t InIndex)
 	{
 		std::printf("----------------------------------------\n");
 		std::printf("[%s]\n", "PrintNodeData");
@@ -504,16 +509,17 @@ public:
 			return;
 		}
 
+		PrintValue(InNode->Value);
+
+		std::printf("%-15s : %s\n", "ValueType", typeid(T).name());
 		std::printf("%-15s : %zu\n", "NodeIndex", InIndex);
 		std::printf("%-15s : %p\n", "NodePointer", (void*)InNode);
-		std::printf("%-15s : %s\n", "ValueType", typeid(int).name());
-		std::printf("%-15s : %d\n", "Value", (int)InNode->Value);
 		std::printf("%-15s : %p\n", "PrevNode", (void*)InNode->Prev);
 		std::printf("%-15s : %p\n", "NextNode", (void*)InNode->Next);
 		std::printf("----------------------------------------\n");
 	}
 
-	static void PrintAllNodeData(LinkedList* InLinkedList)
+	static void PrintAllNodeData(LinkedList<T>* InLinkedList)
 	{
 		std::printf("========================================\n");
 		std::printf("[%s]\n", "PrintAllNodeData");
@@ -533,7 +539,7 @@ public:
 			return;
 		}
 
-		const Node* printNode = InLinkedList->Head;
+		const Node<T>* printNode = InLinkedList->Head;
 		std::size_t index = 0;
 
 		while (printNode != nullptr)
