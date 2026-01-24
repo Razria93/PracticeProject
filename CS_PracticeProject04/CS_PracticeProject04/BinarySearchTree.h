@@ -116,7 +116,7 @@ public:
 			std::printf("[Delete ParentCache After]\n");
 			std::printf("%-20s : ParentValue: %-11d | ParentNode: %p\n", "Delete_AF", parentNode->Value, parentNode);
 			std::printf("%-20s   Parent: %p | Left : %p | Right : %p\n", "", parentNode->Parent, parentNode->Left, parentNode->Right);
-			
+
 		}
 		else // bIsRoot?
 		{
@@ -296,10 +296,10 @@ public:
 			Node* smallest = FindSmallest(InNode->Right);
 
 			if (!largest && !smallest) return false;
-			
+
 			if (!largest && smallest)
 				switchNode = smallest;
-			
+
 			if (largest && !smallest)
 				switchNode = largest;
 
@@ -328,7 +328,7 @@ public:
 			}
 			else
 			{
-				std::printf("OldParentNode InValid");
+				std::printf("OldParentNode InValid\n");
 			}
 
 			if (newParentNode)
@@ -338,7 +338,7 @@ public:
 			}
 			else
 			{
-				std::printf("NewParentNode InValid");
+				std::printf("NewParentNode InValid\n");
 			}
 
 
@@ -402,7 +402,7 @@ public:
 			{
 				switchNode->Left = nullptr;
 			}
-			
+
 			if (rightNode_cached && (rightNode_cached != switchNode))
 			{
 				switchNode->Right = rightNode_cached;
@@ -423,7 +423,7 @@ public:
 			}
 			else
 			{
-				std::printf("OldParentNode InValid");
+				std::printf("OldParentNode InValid\n");
 			}
 
 			if (newParentNode)
@@ -433,13 +433,13 @@ public:
 			}
 			else
 			{
-				std::printf("NewParentNode InValid");
+				std::printf("NewParentNode InValid\n");
 			}
 
 			std::printf("%-20s : SwitchValue: %-11d | SwitchNode: %p\n", "SwicthNode", switchNode->Value, switchNode);
 			std::printf("%-20s  [Parent: %p]| Left : %p | Right : %p\n", "", switchNode->Parent, switchNode->Left, switchNode->Right);
 			std::printf("%-20s : %zd\n", "Size", Size);
-			
+
 
 			return true;
 		}
