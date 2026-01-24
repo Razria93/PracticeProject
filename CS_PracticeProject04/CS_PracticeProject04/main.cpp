@@ -20,13 +20,9 @@ int main()
 
 	std::printf("\n[Clear]\n");
 	if (bst.Clear())
-	{
 		std::printf("[Clear_Complete]\n");
-	}
 	else
-	{
 		std::printf("[Clear_Failed]\n");
-	}
 
 	return 0;
 }

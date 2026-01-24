@@ -56,33 +56,38 @@ public:
 			return false; // this Node is NULL
 		}
 
+		std::printf("%-20s : Value: %-10d | Node: %p\n", "TryClear_LNode", InNode->Value, InNode);
 		if (Clear(InNode->Left))
 		{
-			std::printf(
-				"%-15s : CurNodeValue: %-5d | CurNode: %p | Target: %p | Parent: %p\n",
-				"Clear_Left", InNode->Value, InNode, InNode->Left, InNode->Parent);
+			std::printf("------------------------------\n");
+			std::printf("%-20s : ParentValue: %-10d | ParentNode: %p\n", "CompleteClear_LNode", InNode->Value, InNode);
+			std::printf("%-20s   Parent: %p |[Left : %p]| Right : %p\n", "", InNode->Parent, InNode->Left, InNode->Right);
+			std::printf("------------------------------\n");
 		}
 		else
 		{
-			std::printf(
-				"%-15s : CurNodeValue: %-5d | CurNode: %p | Target: %p | Parent: %p\n",
-				"InValid_Left", InNode->Value, InNode, InNode->Left, InNode->Parent);
+			std::printf("%-20s\n", "InValid_LeftNode");
 		}
 
+		std::printf("%-20s : Value: %-10d | Node: %p\n", "TryClear_RNode", InNode->Value, InNode);
 		if (Clear(InNode->Right))
 		{
-			std::printf(
-				"%-15s : CurNodeValue: %-5d | CurNode: %p | Target: %p | Parent: %p\n",
-				"Clear_Right", InNode->Value, InNode, InNode->Right, InNode->Parent);
+			std::printf("------------------------------\n");
+			std::printf("%-20s : OwerValue: %-10d | OwerNode: %p\n", "CompleteClear_RNode", InNode->Value, InNode);
+			std::printf("%-20s   Parent: %p | Left : %p |[Right : %p]\n", "", InNode->Parent, InNode->Left, InNode->Right);
+			std::printf("------------------------------\n");
 		}
 		else
 		{
-			std::printf(
-				"%-15s : CurNodeValue: %-5d | CurNode: %p | Target: %p | Parent: %p\n",
-				"InValid_Right", InNode->Value, InNode, InNode->Right, InNode->Parent);
+			std::printf("%-20s\n", "InValid_RightNode");
 		}
 
+		std::printf("------------------------------\n");
+		std::printf("%-20s : CurValue: %-10d | CurNode: %p\n", "TryClear_CNode", InNode->Value, InNode);
 		Delete(InNode);
+		std::printf("%-20s : CurValue: %-10d | CurNode: %p\n", "CompleteClear_CNode", InNode->Value, InNode);
+		std::printf("%-20s   Parent: %p | Left : %p | Right : %p\n", "", InNode->Parent, InNode->Left, InNode->Right);
+		std::printf("------------------------------\n");
 
 		return true;
 	}
@@ -112,14 +117,14 @@ public:
 		{
 			if (Size != 0)
 			{
-				std::printf("%-15s : %s\n", "Error", "InValid Root. but Size != 0.");
+				std::printf("%-20s : %s\n", "Error", "InValid Root. but Size != 0.");
 				return false;
 			}
 
 			Root = node;
 			++Size;
 
-			std::printf("%-15s : Parent: %p | Node: %p | NodeValue: %-5d | Size: %zd\n", "Insert_Root", node->Parent, node, node->Value, Size);
+			std::printf("%-20s : Parent: %p | Node: %p | NodeValue: %-5d | Size: %zd\n", "Insert_Root", node->Parent, node, node->Value, Size);
 			return true;
 		}
 
@@ -136,7 +141,7 @@ public:
 					node->Parent = targetNode;
 					++Size;
 
-					std::printf("%-15s : Parent: %p | Node: %p | NodeValue: %-5d | Size: %zd\n", "Insert_Left", node->Parent, node, node->Value, Size);
+					std::printf("%-20s : Parent: %p | Node: %p | NodeValue: %-5d | Size: %zd\n", "Insert_Left", node->Parent, node, node->Value, Size);
 					return true;
 				}
 				else // Valid targetNode->Left
@@ -153,7 +158,7 @@ public:
 					node->Parent = targetNode;
 					++Size;
 
-					std::printf("%-15s : Parent: %p | Node: %p | NodeValue: %-5d | Size: %zd\n", "Insert_Right", node->Parent, node, node->Value, Size);
+					std::printf("%-20s : Parent: %p | Node: %p | NodeValue: %-5d | Size: %zd\n", "Insert_Right", node->Parent, node, node->Value, Size);
 					return true;
 				}
 				else // Valid targetNode->Left
@@ -164,12 +169,12 @@ public:
 			}
 			else // node->Value == targetNode->Value
 			{
-				std::printf("%-15s : %s\n", "Error", "InValue be Duplicated.");
+				std::printf("%-20s : %s\n", "Error", "InValue be Duplicated.");
 				return false;
 			}
 		} // while
 
-		std::printf("%-15s : %s\n", "Error", "Undefined.");
+		std::printf("%-20s : %s\n", "Error", "Undefined.");
 		return false;
 	} // Insert
 
