@@ -287,6 +287,9 @@ public:
 		if (InValue == InNode->Value)
 		{
 			Node* eraseNode = InNode;
+			Node* leftNode_cached = eraseNode->Left;
+			Node* rightNode_cached = eraseNode->Right;
+
 			Node* switchNode = nullptr;
 
 			Node* largest = FindLargest(InNode->Left);
@@ -349,12 +352,19 @@ public:
 			if (newParentNode)
 			{
 				if (newParentNode->Right == eraseNode)
+				{
 					bRight = true;
+					newParentNode->Right = nullptr;
+				}
 				else if (newParentNode->Left == eraseNode)
+				{
 					bLeft = true;
+					newParentNode->Left = nullptr;
+				}
 			}
 
 			Delete(eraseNode);
+			eraseNode = nullptr;
 
 			if (oldParentNode)
 			{
@@ -379,9 +389,30 @@ public:
 			}
 			else
 			{
+				Root = switchNode;
 				switchNode->Parent = nullptr;
 			}
+
+			if (leftNode_cached && (leftNode_cached != switchNode))
+			{
+				switchNode->Left = leftNode_cached;
+				leftNode_cached->Parent = switchNode;
+			}
+			else
+			{
+				switchNode->Left = nullptr;
+			}
 			
+			if (rightNode_cached && (rightNode_cached != switchNode))
+			{
+				switchNode->Right = rightNode_cached;
+				rightNode_cached->Parent = switchNode;
+			}
+			else
+			{
+				switchNode->Right = nullptr;
+			}
+
 			--Size;
 
 			std::printf("\n[Erase After]\n");
