@@ -43,6 +43,15 @@ int main()
 	// Node* find_1 = bst.Find(300);
 	// std::printf("%-20s : Node: %-5p | InValue: %-5d\n", "[Find_Result]", find_1, find_1 ? find_1->Value : -1);
 
+	std::printf("\n[TraversePreOrder]\n");
+	bst.TraversePreOrder();
+	
+	std::printf("\n[TraverseInOrder]\n");
+	bst.TraverseInOrder();
+
+	std::printf("\n[TraversePostOrder]\n");
+	bst.TraversePostOrder();
+
 	// std::printf("\n[Clear]\n");
 	// if (bst.Clear())
 	// 	std::printf("[Clear_Complete]\n");
